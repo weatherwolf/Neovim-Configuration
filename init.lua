@@ -9,13 +9,20 @@ vim.opt.listchars = { tab = ">-", trail = "-" }
 vim.opt.list = true
 vim.cmd("colorscheme catppuccin")
 
--- Add lazy.nvim to the runtime path
-vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/lazy/lazy.nvim")
+-- Bootstrap lazy.nvim (auto-installs if not present)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   -- File explorer: https://github.com/nvim-tree/nvim-tree.lua
-  -- Windows: git clone https://github.com/folke/lazy.nvim.git `        $env:LOCALAPPDATA\nvim-data\lazy\lazy.nvim
-  -- Linux/macOS: git clone https://github.com/folke/lazy.nvim.git \ ~/.local/share/nvim/lazy/lazy.nvim
   {
     "nvim-tree/nvim-tree.lua",
     version = "*",
@@ -29,6 +36,13 @@ require("lazy").setup({
           width = 30,
         },
       })
+    end,
+  },
+  {
+    "gelguy/wilder.nvim",
+    config = function()
+      local wilder = require("wilder")
+      wilder.setup({ modes = { ":", "/", "?" } })
     end,
   },
 })
