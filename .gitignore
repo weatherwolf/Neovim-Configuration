@@ -1,0 +1,13 @@
+# Lua files
+*.lua
+
+# PowerShell files
+*.ps1
+*.psm1
+*.psd1
+
+# Claude
+.claude/
+
+# Ignore-marked files
+*_ignore.*
