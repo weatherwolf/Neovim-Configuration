@@ -1,6 +1,3 @@
-# Lua files
-*.lua
-
 # PowerShell files
 *.ps1
 *.psm1
