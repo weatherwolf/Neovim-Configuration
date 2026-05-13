@@ -7,7 +7,9 @@ vim.opt.ignorecase = true
 vim.opt.hlsearch = true
 vim.opt.listchars = { tab = ">-", trail = "-" }
 vim.opt.list = true
-vim.cmd("colorscheme catppuccin")
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.textwidth = 80
 
 -- Bootstrap lazy.nvim (auto-installs if not present)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -22,6 +24,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  -- Colorscheme: https://github.com/catppuccin/nvim
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      vim.cmd("colorscheme catppuccin")
+    end,
+  },
   -- File explorer: https://github.com/nvim-tree/nvim-tree.lua
   {
     "nvim-tree/nvim-tree.lua",
@@ -34,6 +45,7 @@ require("lazy").setup({
         sort_by = "case_sensitive",
         view = {
           width = 30,
+          number = true,
         },
       })
     end,
@@ -67,4 +79,17 @@ require("lazy").setup({
       })
     end,
   },
+  {
+    "weatherwolf/comment-toggle",
+    config = function()
+      require("comment_toggle").setup()
+    end,
+  },
+})
+
+-- Open file explorer on startup
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.cmd("NvimTreeToggle")
+  end,
 })
