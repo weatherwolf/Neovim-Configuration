@@ -52,9 +52,16 @@ require("lazy").setup({
   },
   {
     "gelguy/wilder.nvim",
+    build = ":UpdateRemotePlugins",
     config = function()
       local wilder = require("wilder")
       wilder.setup({ modes = { ":", "/", "?" } })
+      wilder.set_option("pipeline", {
+        wilder.branch(
+          wilder.cmdline_pipeline({ language = "vim", fuzzy = 1 }),
+          wilder.vim_search_pipeline()
+        ),
+      })
     end,
   },
   -- Comfy line numbers: https://github.com/mluders/comfy-line-numbers.nvim
